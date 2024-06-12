@@ -1,4 +1,5 @@
 import argparse
+import os
 import time
 import cv2
 import numpy as np
@@ -110,7 +111,7 @@ def detect_lp_width(model, I, MAXWIDTH, net_step, out_size, threshold):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--image', type=str, default='images\\example_aolp_fullimage.jpg', help='Input Image')
+    parser.add_argument('-i', '--image', type=str, default=os.path.join('images', 'example_aolp_fullimage.jpg'), help='Input Image')
     parser.add_argument('-v', '--vtype', type=str, default='fullimage', help='Image type (car, truck, bus, bike or fullimage)')
     parser.add_argument('-t', '--lp_threshold', type=float, default=0.35, help='Detection Threshold')
     args = parser.parse_args()
@@ -124,7 +125,7 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     mymodel = IWPODNet()
-    mymodel.load_state_dict(torch.load('weights/iwpodnet_retrained_epoch10000.pth')['model_state_dict'])
+    mymodel.load_state_dict(torch.load('weights/iwpodnet_retrained_epoch10000.pth', map_location=device)['model_state_dict'])
     mymodel.to(device)
 
     if vtype in ['car', 'bus', 'truck']:
