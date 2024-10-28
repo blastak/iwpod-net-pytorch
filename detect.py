@@ -1,8 +1,11 @@
 import argparse
+import os
+import sys
 import time
-import cv2
-import numpy as np
+
 import torch
+
+sys.path.append(os.path.dirname(__file__))
 from src.model import IWPODNet
 from src.utils import *
 from src.label import *
